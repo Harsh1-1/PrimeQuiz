@@ -15,6 +15,7 @@ public class CheatActivity extends AppCompatActivity {
     private boolean cheated;
     private static int random_number;
 
+    //function to check whether a number is prime or not
     public int checkprime(int number) {
         int primeflag = 0;
         for (int i = 2; i <= number / 2; i++) {
