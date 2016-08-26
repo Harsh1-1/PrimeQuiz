@@ -42,6 +42,7 @@ public class CheatActivity extends AppCompatActivity {
             cheated = false;
         }
 
+        Toast.makeText(getApplicationContext(), "Cheat will be considered whether or not you see the answer", Toast.LENGTH_LONG).show();
 
         CheatButton.setOnClickListener(new View.OnClickListener() {
             @Override

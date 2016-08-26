@@ -83,11 +83,12 @@ public class PrimeQuizActivity extends AppCompatActivity {
             random_number = savedInstanceState.getInt("saved_random_number");
             nscore = savedInstanceState.getInt("saved_score");
             isanswered = savedInstanceState.getBoolean("saved_isanswered");
+            ischeattaken = savedInstanceState.getBoolean("saved_ischeattaken");
         }
         else{
             //for generating a random number
             random_number = (int)(Math.random()*1001);
-
+            ischeattaken = false;
             isanswered = false;
         }
 
@@ -107,6 +108,9 @@ public class PrimeQuizActivity extends AppCompatActivity {
                 if (isanswered)
                 {
                     AnswerStatus.setText("Already Answered");
+                    AnswerStatus.setAlpha(1.0f);
+                } else if (ischeattaken) {
+                    AnswerStatus.setText("Already Cheated!!");
                     AnswerStatus.setAlpha(1.0f);
                 } else {
 
@@ -142,6 +146,9 @@ public class PrimeQuizActivity extends AppCompatActivity {
                 {
                     AnswerStatus.setText("Already Answered");
                     AnswerStatus.setAlpha(1.0f);
+                } else if (ischeattaken) {
+                    AnswerStatus.setText("Already Cheated!!");
+                    AnswerStatus.setAlpha(1.0f);
                 } else {
 
                     if (i == 0) {
@@ -168,6 +175,7 @@ public class PrimeQuizActivity extends AppCompatActivity {
         NextButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                ischeattaken = false;
                 isanswered = false;
                 AnswerStatus.setAlpha(0.0f);
                 //for enabling both yes and no buttons on next question
@@ -190,6 +198,7 @@ public class PrimeQuizActivity extends AppCompatActivity {
                     AnswerStatus.setText("Already Answered");
                     AnswerStatus.setAlpha(1.0f);
                 } else {
+                    ischeattaken = true;
                     Intent intent = new Intent(getApplicationContext(), CheatActivity.class);
                     intent.putExtra(Cheat_Message, random_number);
                     startActivityForResult(intent, 1);
@@ -205,10 +214,13 @@ public class PrimeQuizActivity extends AppCompatActivity {
                 if (isanswered) {
                     AnswerStatus.setText("Already Answered");
                     AnswerStatus.setAlpha(1.0f);
+                } else if (ischeattaken) {
+                    AnswerStatus.setText("Already Cheated!!");
+                    AnswerStatus.setAlpha(1.0f);
                 } else {
                     Intent intent = new Intent(getApplicationContext(), HintActivity.class);
                     intent.putExtra(Hint_Message, random_number);
-                    startActivityForResult(intent, 200);
+                    startActivityForResult(intent, 3);
                 }
                 Log.d(Tag, "Hint got clicked");
             }
@@ -242,6 +254,7 @@ public class PrimeQuizActivity extends AppCompatActivity {
         savedInstanceState.putInt("saved_random_number",random_number);
         savedInstanceState.putInt("saved_score",nscore);
         savedInstanceState.putBoolean("saved_isanswered", isanswered);
+        savedInstanceState.putBoolean("saved_ischeattaken", ischeattaken);
         Log.i(Tag, "Inside onSaveInstance");
     }
 
@@ -249,13 +262,13 @@ public class PrimeQuizActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         if (ischeattaken) {
-            Toast.makeText(getApplicationContext(), "Cheat Taken!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Cheat taken!!", Toast.LENGTH_SHORT).show();
         }
         Log.d(Tag,"Inside OnREsume");
 
     }
 
-    @Override
+
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == 1) {
