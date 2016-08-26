@@ -62,4 +62,20 @@
         android:id="@+id/answerstatus"
         android:layout_above="@+id/nextbutton"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="hint"
+        android:id="@+id/hint"
+        android:layout_below="@+id/yesbutton"
+        android:layout_alignEnd="@+id/yesbutton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CHEAT"
+        android:id="@+id/cheat"
+        android:layout_alignTop="@+id/hint"
+        android:layout_alignStart="@+id/nobutton" />
 </RelativeLayout>

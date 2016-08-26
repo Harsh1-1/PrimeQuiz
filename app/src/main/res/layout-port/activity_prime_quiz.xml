@@ -53,9 +53,9 @@
         android:layout_height="wrap_content"
         android:text="@string/next_text"
         android:id="@+id/nextbutton"
-        android:layout_marginTop="60dp"
-        android:layout_below="@+id/yesbutton"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/answerstatus"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="52dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -66,5 +66,21 @@
         android:layout_marginBottom="55dp"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/score" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HINT"
+        android:id="@+id/hint"
+        android:layout_below="@+id/yesbutton"
+        android:layout_alignEnd="@+id/yesbutton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CHEAT"
+        android:id="@+id/cheat"
+        android:layout_below="@+id/nobutton"
+        android:layout_alignStart="@+id/nobutton" />
 
 </RelativeLayout>

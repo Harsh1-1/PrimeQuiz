@@ -4,9 +4,11 @@ package com.example.harsh.primequiz;
 /*
 Notes:
 On every correct answer player gets one point
-and [IMPORTANT]on any wrong answer score will reset to 0 
+and [IMPORTANT]on any wrong answer score will reset to 0
 
  */
+
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PrimeQuizActivity extends AppCompatActivity {
 
@@ -26,8 +29,15 @@ public class PrimeQuizActivity extends AppCompatActivity {
     private static final String Tag = "PrimeQuizActivity";
     protected static int nscore;
     protected TextView Score;
+    private boolean isanswered;
+    private Button CheatButton;
+    private Button HintButton;
+    private static boolean ischeattaken;
+    public final static String Cheat_Message = "cheat_answer";
+    public final static String Hint_Message = "get_hint";
 
-//function to check whether a number is prime or not
+
+    //function to check whether a number is prime or not
     public int checkprime(int number)
     {
         int primeflag = 0;
@@ -60,6 +70,8 @@ public class PrimeQuizActivity extends AppCompatActivity {
         Question = (TextView)findViewById(R.id.question);
         Score = (TextView)findViewById(R.id.score);
         AnswerStatus = (TextView)findViewById(R.id.answerstatus);
+        CheatButton = (Button) findViewById(R.id.cheat);
+        HintButton = (Button) findViewById(R.id.hint);
 
         //for hiding the status of answer
         AnswerStatus.setAlpha(0.0f);
@@ -70,10 +82,13 @@ public class PrimeQuizActivity extends AppCompatActivity {
             //retrieving saved random number and score from bundle
             random_number = savedInstanceState.getInt("saved_random_number");
             nscore = savedInstanceState.getInt("saved_score");
+            isanswered = savedInstanceState.getBoolean("saved_isanswered");
         }
         else{
             //for generating a random number
             random_number = (int)(Math.random()*1001);
+
+            isanswered = false;
         }
 
 
@@ -89,22 +104,28 @@ public class PrimeQuizActivity extends AppCompatActivity {
                 //Disabling "no" button when yes button gets clicked
                 NoButton.setClickable(false);
                 NoButton.setEnabled(false);
-                if(i==0)
+                if (isanswered)
                 {
-                    AnswerStatus.setText(correct_answer);
-                    //changing the color of answer status
-                    AnswerStatus.setTextColor(Color.GREEN);
+                    AnswerStatus.setText("Already Answered");
                     AnswerStatus.setAlpha(1.0f);
-                    nscore = nscore + 1;
+                } else {
+
+                    if (i == 0) {
+                        AnswerStatus.setText(correct_answer);
+                        //changing the color of answer status
+                        AnswerStatus.setTextColor(Color.GREEN);
+                        AnswerStatus.setAlpha(1.0f);
+                        nscore = nscore + 1;
+                        isanswered = true;
+                    } else {
+                        AnswerStatus.setText(incorrect_answer);
+                        AnswerStatus.setTextColor(Color.RED);
+                        AnswerStatus.setAlpha(1.0f);
+                        nscore = 0;
+                        isanswered = true;
+                    }
+                    Score.setText("Your Score: " + nscore);
                 }
-                else
-                {
-                    AnswerStatus.setText(incorrect_answer);
-                    AnswerStatus.setTextColor(Color.RED);
-                    AnswerStatus.setAlpha(1.0f);
-                    nscore = 0;
-                }
-                Score.setText("Your Score: " + nscore);
                 Log.d(Tag, "Yes got clicked");
             }
         });
@@ -117,21 +138,27 @@ public class PrimeQuizActivity extends AppCompatActivity {
                 //Disabling yes button when no button gets clicked
                 YesButton.setClickable(false);
                 YesButton.setEnabled(false);
-                if(i==0)
+                if (isanswered)
                 {
-                    AnswerStatus.setText(incorrect_answer);
-                    AnswerStatus.setTextColor(Color.RED);
+                    AnswerStatus.setText("Already Answered");
                     AnswerStatus.setAlpha(1.0f);
-                    nscore = 0;
+                } else {
+
+                    if (i == 0) {
+                        AnswerStatus.setText(incorrect_answer);
+                        AnswerStatus.setTextColor(Color.RED);
+                        AnswerStatus.setAlpha(1.0f);
+                        nscore = 0;
+                        isanswered = true;
+                    } else {
+                        AnswerStatus.setText(correct_answer);
+                        AnswerStatus.setTextColor(Color.GREEN);
+                        AnswerStatus.setAlpha(1.0f);
+                        nscore = nscore + 1;
+                        isanswered = true;
+                    }
+                    Score.setText("Your Score: " + nscore);
                 }
-                else
-                {
-                    AnswerStatus.setText(correct_answer);
-                    AnswerStatus.setTextColor(Color.GREEN);
-                    AnswerStatus.setAlpha(1.0f);
-                    nscore = nscore + 1;
-                }
-                Score.setText("Your Score: " + nscore);
                 Log.d(Tag, "No got clicked");
             }
         });
@@ -141,6 +168,7 @@ public class PrimeQuizActivity extends AppCompatActivity {
         NextButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                isanswered = false;
                 AnswerStatus.setAlpha(0.0f);
                 //for enabling both yes and no buttons on next question
                 YesButton.setClickable(true);
@@ -153,7 +181,44 @@ public class PrimeQuizActivity extends AppCompatActivity {
                 Log.d(Tag, "Next got clicked");
             }
         });
+
+
+        CheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isanswered) {
+                    AnswerStatus.setText("Already Answered");
+                    AnswerStatus.setAlpha(1.0f);
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), CheatActivity.class);
+                    intent.putExtra(Cheat_Message, random_number);
+                    startActivityForResult(intent, 1);
+                }
+                Log.d(Tag, "Cheat got clicked");
+            }
+        });
+
+
+        HintButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isanswered) {
+                    AnswerStatus.setText("Already Answered");
+                    AnswerStatus.setAlpha(1.0f);
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), HintActivity.class);
+                    intent.putExtra(Hint_Message, random_number);
+                    startActivityForResult(intent, 200);
+                }
+                Log.d(Tag, "Hint got clicked");
+            }
+        });
+
+
+
+
     }
+
 
     @Override
     public void onStart()
@@ -176,14 +241,29 @@ public class PrimeQuizActivity extends AppCompatActivity {
         //saving random number and score in bundle
         savedInstanceState.putInt("saved_random_number",random_number);
         savedInstanceState.putInt("saved_score",nscore);
+        savedInstanceState.putBoolean("saved_isanswered", isanswered);
         Log.i(Tag, "Inside onSaveInstance");
     }
 
     @Override
     public void onResume(){
         super.onResume();
+        if (ischeattaken) {
+            Toast.makeText(getApplicationContext(), "Cheat Taken!!", Toast.LENGTH_SHORT).show();
+        }
         Log.d(Tag,"Inside OnREsume");
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == 1) {
+            Log.d("onactivityprimequiz", "inside onActivityResult in request code if");
+            if (resultCode == RESULT_OK)
+                ischeattaken = intent.getBooleanExtra("Cheat_Taken", false);
+        }
+        Log.d("onactivityprimequiz", "inside onActivityResult");
     }
 
     @Override
