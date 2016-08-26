@@ -38,12 +38,14 @@ public class CheatActivity extends AppCompatActivity {
             cheated = savedInstanceState.getBoolean("saved_cheated_status");
         } else {
             Intent intent = getIntent();
+            //getting random no. from intent
             random_number = intent.getIntExtra(PrimeQuizActivity.Cheat_Message, 2);
             cheated = false;
         }
 
         Toast.makeText(getApplicationContext(), "Cheat will be considered whether or not you see the answer", Toast.LENGTH_LONG).show();
 
+        //Listener for cheat button
         CheatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,15 +53,16 @@ public class CheatActivity extends AppCompatActivity {
                 cheated = true;
                 int i = checkprime(random_number);
                 if (i == 0) {
-                    Toast.makeText(getApplicationContext(), "Yes its prime!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Yes its prime!!", Toast.LENGTH_LONG).show();
                 } else
-                    Toast.makeText(getApplicationContext(), "its not prime!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "its not prime!!", Toast.LENGTH_LONG).show();
 
             }
         });
 
     }
 
+    //function to tell to what to do on back press
     @Override
     public void onBackPressed() {
 

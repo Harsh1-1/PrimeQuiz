@@ -29,6 +29,7 @@ public class HintActivity extends AppCompatActivity {
             hinttaken = savedInstanceState.getBoolean("saved_hinttaken_status");
         } else {
             Intent intent = getIntent();
+            //recieving random no from intent
             random_number = intent.getIntExtra(PrimeQuizActivity.Hint_Message, 2);
             hinttaken = false;
         }
@@ -38,7 +39,7 @@ public class HintActivity extends AppCompatActivity {
             HintTextView.setText("Check if the " + random_number + " is divisible by any number between 1 and " + (int) Math.sqrt((double) random_number));
         }
 
-
+        //Listener for handling Hint Button
         HintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

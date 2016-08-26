@@ -131,6 +131,7 @@ public class PrimeQuizActivity extends AppCompatActivity {
                         nscore = 0;
                         isanswered = true;
                     }
+                    Score.setTextColor(Color.BLUE);
                     Score.setText("Your Score: " + nscore);
                 }
                 Log.d(Tag, "Yes got clicked");
@@ -169,6 +170,7 @@ public class PrimeQuizActivity extends AppCompatActivity {
                         nscore = nscore + 1;
                         isanswered = true;
                     }
+                    Score.setTextColor(Color.BLUE);
                     Score.setText("Your Score: " + nscore);
                 }
                 Log.d(Tag, "No got clicked");
@@ -190,6 +192,7 @@ public class PrimeQuizActivity extends AppCompatActivity {
                 NoButton.setEnabled(true);
                 random_number = (int)(Math.random()*1001);
                 Question.setText("is " + random_number +" a prime number ?");
+                Score.setTextColor(Color.BLUE);
                 Score.setText("Score: " + nscore);
                 Log.d(Tag, "Next got clicked");
             }
