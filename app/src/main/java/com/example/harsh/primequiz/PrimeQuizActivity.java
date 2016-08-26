@@ -64,6 +64,7 @@ public class PrimeQuizActivity extends AppCompatActivity {
         final String correct_answer = getResources().getString(R.string.correct);
         final String incorrect_answer = getResources().getString(R.string.incorrect);
 
+        //getting ids of all the components
         YesButton = (Button)findViewById(R.id.yesbutton);
         NoButton = (Button)findViewById(R.id.nobutton);
         NextButton = (Button)findViewById(R.id.nextbutton);
@@ -79,7 +80,7 @@ public class PrimeQuizActivity extends AppCompatActivity {
 
         if(savedInstanceState != null)
         {
-            //retrieving saved random number and score from bundle
+            //retrieving saved random number and score and isanswered and ischeattaken flagfrom bundle
             random_number = savedInstanceState.getInt("saved_random_number");
             nscore = savedInstanceState.getInt("saved_score");
             isanswered = savedInstanceState.getBoolean("saved_isanswered");
@@ -105,10 +106,12 @@ public class PrimeQuizActivity extends AppCompatActivity {
                 //Disabling "no" button when yes button gets clicked
                 NoButton.setClickable(false);
                 NoButton.setEnabled(false);
+                //if user answers the quetion and click Yes button again , it will not be allowed
                 if (isanswered)
                 {
                     AnswerStatus.setText("Already Answered");
                     AnswerStatus.setAlpha(1.0f);
+                    //if user cheats and tries to click yes button
                 } else if (ischeattaken) {
                     AnswerStatus.setText("Already Cheated!!");
                     AnswerStatus.setAlpha(1.0f);
@@ -142,10 +145,12 @@ public class PrimeQuizActivity extends AppCompatActivity {
                 //Disabling yes button when no button gets clicked
                 YesButton.setClickable(false);
                 YesButton.setEnabled(false);
+                //if already answered
                 if (isanswered)
                 {
                     AnswerStatus.setText("Already Answered");
                     AnswerStatus.setAlpha(1.0f);
+                    //if already cheated
                 } else if (ischeattaken) {
                     AnswerStatus.setText("Already Cheated!!");
                     AnswerStatus.setAlpha(1.0f);
@@ -194,6 +199,7 @@ public class PrimeQuizActivity extends AppCompatActivity {
         CheatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //if already answered cheating is not allowed
                 if (isanswered) {
                     AnswerStatus.setText("Already Answered");
                     AnswerStatus.setAlpha(1.0f);
@@ -214,6 +220,7 @@ public class PrimeQuizActivity extends AppCompatActivity {
                 if (isanswered) {
                     AnswerStatus.setText("Already Answered");
                     AnswerStatus.setAlpha(1.0f);
+                    //if already cheated or answered then hint taking will not be allowed
                 } else if (ischeattaken) {
                     AnswerStatus.setText("Already Cheated!!");
                     AnswerStatus.setAlpha(1.0f);

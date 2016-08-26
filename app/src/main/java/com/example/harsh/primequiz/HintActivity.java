@@ -46,7 +46,6 @@ public class HintActivity extends AppCompatActivity {
                 hinttaken = true;
                 HintTextView.setTextColor(Color.GREEN);
                 HintTextView.setText("Check if the " + random_number + " is divisible by any number between 1 and " + (int) Math.sqrt((double) random_number));
-                Toast.makeText(getApplicationContext(), "its not prime!!", Toast.LENGTH_SHORT).show();
 
             }
         });
